@@ -37,18 +37,4 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-        word_btn.setOnClickListener { changeWord() }
-    }
-
-    private fun changeWord() {
-        val word = word_input.text.toString()
-        if (word.length > 0) {
-            homeViewModel.changeWord(word)
-            word_input.text.clear()
-        }
-    }
 }
