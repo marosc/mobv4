@@ -12,13 +12,11 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
 
-    private val _word: MutableLiveData<String> = MutableLiveData()
-
-    val word: LiveData<String>
-        get() = _word
+    val word: MutableLiveData<String> = MutableLiveData()
 
 
     fun changeWord(word: String) {
-        _word.postValue(word)
+        this.word.postValue(word)
     }
+
 }
