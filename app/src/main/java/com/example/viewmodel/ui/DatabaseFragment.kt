@@ -2,10 +2,10 @@ package com.example.viewmodel.ui
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.example.viewmodel.R
@@ -23,6 +23,8 @@ class DatabaseFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_database, container, false)
+
+        //TODO: 7. prerobit na databinding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,11 +33,14 @@ class DatabaseFragment : Fragment() {
         databaseViewModel = ViewModelProvider(this, Injection.provideViewModelFactory(context!!))
             .get(DatabaseViewModel::class.java)
 
+        //TODO: 8. nahradit observer databindingom v xml
         databaseViewModel.words.observe(this) { words_text.text = it.toString() }
 
+        //TODO: 10. nahradit listener databindingom v xml
         word_btn.setOnClickListener { addWord() }
     }
 
+    //TODO: 10. odstanit funkciu pomocou databindingu v xml
     private fun addWord() {
         val word = word_input.text.toString()
         if (word.length > 0) {
