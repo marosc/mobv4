@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
+import androidx.navigation.findNavController
 import com.example.viewmodel.R
 import com.example.viewmodel.databinding.FragmentHomeBinding
 import com.example.viewmodel.ui.viewModels.HomeViewModel
@@ -26,7 +27,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate<FragmentHomeBinding>(
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_home, container, false
         )
         binding.lifecycleOwner = this
@@ -37,4 +38,8 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        db_btn.setOnClickListener { it.findNavController().navigate(R.id.action_hometo_database) }
+    }
 }

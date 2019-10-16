@@ -14,7 +14,11 @@ class HomeViewModel : ViewModel() {
         get() = _word
 
     fun changeWord() {
-        _word.postValue(input.value)
+        input.value?.apply {
+            if (length > 0) {
+                _word.postValue(this)
+            }
+        }
     }
 
 }
