@@ -29,7 +29,7 @@
 
         <TextView
                 android:id="@+id/words_text"
-                android:text="@{model.word}"
+                android:text="@{model.welcome}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
