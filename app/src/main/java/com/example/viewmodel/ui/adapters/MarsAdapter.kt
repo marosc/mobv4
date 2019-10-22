@@ -5,24 +5,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.viewmodel.R
 import com.example.viewmodel.data.db.model.MarsItem
 import com.example.viewmodel.data.db.model.WordItem
+import com.example.viewmodel.databinding.ImageItemBinding
 import com.squareup.picasso.Picasso
 
-class MarsAdapter : RecyclerView.Adapter<MarsAdapter.ViewHolder>() {
+class MarsAdapter : ListAdapter<MarsItem, MarsAdapter.ViewHolder>(DiffCallback) {
 
-    var data = listOf<MarsItem>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
+    companion object DiffCallback : DiffUtil.ItemCallback<MarsItem>() {
+        override fun areItemsTheSame(oldItem: MarsItem, newItem: MarsItem): Boolean {
+            return oldItem === newItem
         }
 
-    override fun getItemCount() = data.size
+        override fun areContentsTheSame(oldItem: MarsItem, newItem: MarsItem): Boolean {
+            return oldItem.id == newItem.id
+        }
+    }
+
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = data[position]
+        val item = getItem(position)
         holder.bind(item)
     }
 
@@ -31,18 +38,17 @@ class MarsAdapter : RecyclerView.Adapter<MarsAdapter.ViewHolder>() {
         return ViewHolder.from(parent)
     }
 
-    class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(private var binding: ImageItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
 
         fun bind(item: MarsItem) {
-            Picasso.get().load(item.img_src).into(itemView as ImageView)
+            binding.property = item
+            binding.executePendingBindings()
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater
-                    .inflate(R.layout.image_item, parent, false)
+                val view = ImageItemBinding.inflate(LayoutInflater.from(parent.context))
 
                 return ViewHolder(view)
             }

@@ -47,7 +47,7 @@ class MarsFragment : Fragment() {
 
         val adapter = MarsAdapter()
         binding.imageList.adapter = adapter
-        marsViewModel.images.observe(this) { adapter.data = it }
+        //marsViewModel.images.observe(this) { adapter.data = it }
 
         return binding.root
     }
