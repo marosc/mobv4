@@ -53,6 +53,8 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
     //Database
     def room_version = "2.2.0"
     def archComponentsVersion = '2.1.0'

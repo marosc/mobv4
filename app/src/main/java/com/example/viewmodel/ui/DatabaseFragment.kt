@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.viewmodel.R
 import com.example.viewmodel.databinding.FragmentDatabaseBinding
 import com.example.viewmodel.ui.viewModels.DatabaseViewModel
@@ -33,6 +36,15 @@ class DatabaseFragment : Fragment() {
             .get(DatabaseViewModel::class.java)
 
         binding.model = databaseViewModel
+
+        binding.wordsList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        //binding.wordsList.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,true)
+        //binding.wordsList.layoutManager = LinearLayoutManager(context,RecyclerView.HORIZONTAL,false)
+        //binding.wordsList.layoutManager = GridLayoutManager(context,3,RecyclerView.VERTICAL,false)
+
+        val adapter = MessagesAdapter()
+        binding.wordsList.adapter = adapter
+        databaseViewModel.words.observe(this) { adapter.data = it }
 
         return binding.root
     }
