@@ -18,15 +18,18 @@ package com.example.viewmodel.data
 
 import androidx.lifecycle.LiveData
 import com.example.viewmodel.data.db.LocalCache
-import com.example.viewmodel.data.db.model.VideoItem
+import com.example.viewmodel.data.db.model.MarsItem
 import com.example.viewmodel.data.db.model.WordItem
 import com.google.gson.Gson
+import com.opinyour.android.app.data.api.WebApi
 import java.io.File
+import java.net.ConnectException
 
 /**
  * Repository class that works with local and remote data sources.
  */
 class DataRepository private constructor(
+    private val api: WebApi,
     private val cache: LocalCache
 ) {
 
@@ -35,10 +38,10 @@ class DataRepository private constructor(
         @Volatile
         private var INSTANCE: DataRepository? = null
 
-        fun getInstance(cache: LocalCache): DataRepository =
+        fun getInstance(api: WebApi, cache: LocalCache): DataRepository =
             INSTANCE ?: synchronized(this) {
                 INSTANCE
-                    ?: DataRepository(cache).also { INSTANCE = it }
+                    ?: DataRepository(api, cache).also { INSTANCE = it }
             }
     }
 
@@ -46,6 +49,30 @@ class DataRepository private constructor(
 
     suspend fun insertWord(wordItem: WordItem) {
         cache.insertWord(wordItem)
+    }
+
+    fun getMars(): LiveData<List<MarsItem>> = cache.getImages()
+
+    suspend fun loadMars(onError: (error: String) -> Unit) {
+
+        try {
+            val response = api.getProperties()
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return cache.insertImages(it.map { item -> MarsItem(item.price, item.id, item.type, item.img_src) })
+                }
+            }
+
+            onError("Load images failed. Try again later please.")
+        } catch (ex: ConnectException) {
+            onError("Off-line. Check internet connection.")
+            ex.printStackTrace()
+            return
+        } catch (ex: Exception) {
+            onError("Oops...Change failed. Try again later please.")
+            ex.printStackTrace()
+            return
+        }
     }
 
 

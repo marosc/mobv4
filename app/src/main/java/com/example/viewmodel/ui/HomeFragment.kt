@@ -41,5 +41,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         db_btn.setOnClickListener { it.findNavController().navigate(R.id.action_hometo_database) }
+        mars_btn.setOnClickListener { it.findNavController().navigate(R.id.action_hometo_mars) }
     }
 }

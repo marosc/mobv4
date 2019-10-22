@@ -1,16 +1,19 @@
-package com.example.viewmodel.ui
+package com.example.viewmodel.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.viewmodel.R
+import com.example.viewmodel.data.db.model.MarsItem
 import com.example.viewmodel.data.db.model.WordItem
+import com.squareup.picasso.Picasso
 
-class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.ViewHolder>() {
+class MarsAdapter : RecyclerView.Adapter<MarsAdapter.ViewHolder>() {
 
-    var data = listOf<WordItem>()
+    var data = listOf<MarsItem>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -31,15 +34,15 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.ViewHolder>() {
     class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 
-        fun bind(item: WordItem) {
-            (itemView as TextView).text = item.word
+        fun bind(item: MarsItem) {
+            Picasso.get().load(item.img_src).into(itemView as ImageView)
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val view = layoutInflater
-                    .inflate(R.layout.text_item, parent, false)
+                    .inflate(R.layout.image_item, parent, false)
 
                 return ViewHolder(view)
             }

@@ -2,6 +2,7 @@ package com.example.viewmodel.data.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.viewmodel.data.db.model.MarsItem
 import com.example.viewmodel.data.db.model.WordItem
 
 @Dao
@@ -20,4 +21,11 @@ interface DbDao {
 
     @Query("SELECT * FROM words")
     fun getWords(): LiveData<List<WordItem>>
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertImages(marsItems: List<MarsItem>)
+
+    @Query("SELECT * FROM images")
+    fun getImages(): LiveData<List<MarsItem>>
 }
