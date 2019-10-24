@@ -10,6 +10,7 @@ import com.example.viewmodel.R
 import com.example.viewmodel.data.db.model.MarsItem
 import com.example.viewmodel.data.db.model.WordItem
 import com.squareup.picasso.Picasso
+import org.w3c.dom.Text
 
 class MarsAdapter : RecyclerView.Adapter<MarsAdapter.ViewHolder>() {
 
@@ -32,17 +33,21 @@ class MarsAdapter : RecyclerView.Adapter<MarsAdapter.ViewHolder>() {
     }
 
     class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+        val mars_image: ImageView = itemView.findViewById(R.id.mars_image)
+        val mars_type: TextView = itemView.findViewById(R.id.mars_type)
+        val mars_price: TextView = itemView.findViewById(R.id.mars_price)
 
         fun bind(item: MarsItem) {
-            Picasso.get().load(item.img_src).into(itemView as ImageView)
+            Picasso.get().load(item.img_src).into(mars_image)
+            mars_type.text = item.type
+            mars_price.text = "$ ${item.price}"
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val view = layoutInflater
-                    .inflate(R.layout.image_item, parent, false)
+                    .inflate(R.layout.mars_item, parent, false)
 
                 return ViewHolder(view)
             }
